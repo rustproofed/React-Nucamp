@@ -40,7 +40,7 @@ import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle} from 'rea
                 <div className="container">
                     <div className="row">
                         <RenderCampsite campsite={props.campsite} />
-                        <RenderComments campsite={props.campsite.comments} />
+                        <RenderComments comments={props.comments} />
                     </div>
                 </div>
             );
