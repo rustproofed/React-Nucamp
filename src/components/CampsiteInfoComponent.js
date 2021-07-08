@@ -5,7 +5,9 @@ import { Control, LocalForm, Errors } from "react-redux-form";
 const required = val => val && val.length;
 const maxLength = len => val => !val || (val.length <= len);
 const minLength = len => val => val && (val.length >= len);
+
 class CommentForm extends Component {
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -20,9 +22,10 @@ class CommentForm extends Component {
         });
     }
     handleSubmit(values) {
-        console.log("Current state is: " + JSON.stringify(values));
-        alert("Current state is: " + JSON.stringify(values));
+        this.toggleModal();
+        this.props.addComment(this.props.campsiteId, values.rating, values.author, values.text);
     }
+      
     render() {
         return (
             <React.Fragment>
@@ -107,7 +110,7 @@ function RenderCampsite({ campsite }) {
         </div>
     )
 }
-function RenderComments({ comments }) {
+function RenderComments({ comments, addComment, campsiteId }) {
     if (comments) {
         return (
             <div className="col-md-5 m-1">
@@ -121,7 +124,7 @@ function RenderComments({ comments }) {
                     )
                 })
                 }
-                <CommentForm />
+                <CommentForm campsiteId={campsiteId} addComment={addComment} />
             </div>
         )
     }
@@ -143,7 +146,11 @@ function CampsiteInfo(props) {
                 </div>
                 <div className="row">
                     <RenderCampsite campsite={props.campsite} />
-                    <RenderComments comments={props.comments} />
+                    <RenderComments 
+                        comments={props.comments}
+                        addComment={props.addComment}
+                        campsiteId={props.campsite.id}
+                    />
                 </div>
             </div>
         );
@@ -151,4 +158,5 @@ function CampsiteInfo(props) {
     else
         return <div />
 }
+
 export default CampsiteInfo;
